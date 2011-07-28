@@ -4,6 +4,8 @@
 ;;
 ;; Author: Chris Perkins <chrisperkins99@gmail.com>
 ;; Created: 01 July, 2011
+;; URL: http://github.com/grammati/windsize
+;; Version: 0.1
 ;; Keywords: window, resizing, convenience
 
 ;; This file is not part of GNU Emacs.
@@ -51,6 +53,8 @@
 
 ;;; Code:
 
+(require 'windmove)
+
 (defvar windsize-cols 8
   "How much to resize horizontally.")
 
@@ -63,13 +67,7 @@
 (defun windsize-default-amount (dir)
   (if (windsize-is-horizontal dir)
       windsize-cols
-      windsize-rows))
-
-(defconst windsize-opposites
-  '((left right) (right left) (up down) (down up)))
-
-(defun windsize-other-direction (dir)
-  (assoc dir windsize-opposites))
+    windsize-rows))
 
 ;; Find the window in direction dir, without wrap-around.
 (defun windsize-find-other-window (dir)
@@ -91,16 +89,17 @@
   ;; there is one, shrink, otherwise enlarge. (case 2)
   ;; This is dictated somewhat by the behaviour of enlarge-window - it
   ;; seems to usually (but not always) move the right or bottom edge.
-  (let* ((horiz  (windsize-is-horizontal dir))
-         (pref   (or (eq dir 'right) (eq dir 'down)))
-         (other  (windsize-find-other-window (if horiz 'right 'down)))
+  (let* ((horiz? (windsize-is-horizontal dir))
+         (pref?  (or (eq dir 'right) (eq dir 'down))) ; right/down are the
+                                                      ; "preferred" directions
+         (other  (windsize-find-other-window (if horiz? 'right 'down)))
          (num    (or arg (windsize-default-amount dir)))
          (amount (if (or
-                      (and pref other)              ; case 1, above
-                      (and (not pref) (not other))) ; case 2, above
-                     num                ; enlarge
-                   (- num))))           ; shrink
-    (enlarge-window amount horiz)))
+                      (and pref? other)              ; case 1, above
+                      (and (not pref?) (not other))) ; case 2, above
+                     num                             ; enlarge
+                   (- num))))                        ; shrink
+    (enlarge-window amount horiz?)))
 
 
 (defun windsize-left (&optional arg)
@@ -134,3 +133,4 @@
 
 
 (provide 'windsize)
+;;; windsize.el ends here
