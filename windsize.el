@@ -101,28 +101,31 @@
                    (- num))))                        ; shrink
     (enlarge-window amount horiz?)))
 
-
+;;;###autoload
 (defun windsize-left (&optional arg)
   "Resize the current window by moving one of its edges to the left."
   (interactive "P")
   (windsize-resize 'left arg))
 
+;;;###autoload
 (defun windsize-right (&optional arg)
   "Resize the current window by moving one of its edges to the right."
   (interactive "P")
   (windsize-resize 'right arg))
 
+;;;###autoload
 (defun windsize-up (&optional arg)
   "Resize the current window by moving one of its edges up."
   (interactive "P")
   (windsize-resize 'up arg))
 
+;;;###autoload
 (defun windsize-down (&optional arg)
   "Resize the current window by moving one of its edges down."
   (interactive "P")
   (windsize-resize 'down arg))
 
-
+;;;###autoload
 (defun windsize-default-keybindings ()
   (interactive)
   (global-set-key (kbd "C-S-<left>")  'windsize-left)
