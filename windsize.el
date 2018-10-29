@@ -55,11 +55,15 @@
 
 (require 'windmove)
 
-(defvar windsize-cols 8
-  "How much to resize horizontally.")
+(defcustom windsize-cols 8
+  "How much to resize horizontally."
+  :type 'integer
+  :group 'windsize)
 
-(defvar windsize-rows 4
-  "How much to resize vertically.")
+(defcustom windsize-rows 4
+  "How much to resize vertically."
+  :type 'integer
+  :group 'windsize)
 
 (defun windsize-is-horizontal (dir)
   (or (eq dir 'left) (eq dir 'right)))
